@@ -63,4 +63,14 @@ public class UserResource {
 		return ResponseEntity.noContent().build();  //204 no content, não retorna nada
 	}
 	
+	@RequestMapping(method = RequestMethod.PUT, value = "/{id}" ) //Para atualizar um registro
+	public ResponseEntity< Void > update(@PathVariable String id, @RequestBody UserDTO objDTO ){ //Casar o atributo com a requisição
+		
+		User obj = service.fromDTO(objDTO);
+		obj.setId(id);
+		obj = service.update(obj);
+		
+		return ResponseEntity.noContent().build();  //204 no content, não retorna nada
+	}
+	
 }
