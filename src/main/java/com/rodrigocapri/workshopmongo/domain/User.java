@@ -1,9 +1,12 @@
 package com.rodrigocapri.workshopmongo.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "user")
@@ -16,6 +19,9 @@ public class User implements Serializable{
 	
 	private String name;
 	private String email;
+	
+	@DBRef (lazy = true) //Para não carregar automaticamente os posts quando recuperar um usuário
+	private List<Post> posts = new ArrayList<>(); //Associação por referência
 	
 	public User() {
 		
@@ -49,6 +55,14 @@ public class User implements Serializable{
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	
+	public List<Post> getPosts() {
+		return posts;
+	}
+
+	public void setPosts(List<Post> posts) {
+		this.posts = posts;
 	}
 
 	@Override

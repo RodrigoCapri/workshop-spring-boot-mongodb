@@ -43,6 +43,9 @@ public class Instantiation implements CommandLineRunner{
 
 		postRepository.saveAll( Arrays.asList(post1, post2) ); //Salvando os post com os respectivos autores
 		
+		maria.getPosts().addAll( Arrays.asList(post1, post2) ); //Referenciando os posts aos usuários
+		userRepository.save(maria); //Salvando novamente com os posts referenciados
+		
 	}
 
 }
