@@ -18,6 +18,7 @@ public class PostService {
 	//Mecanismo de injeção de dependencia automatica do Spring
 	private PostRepository repo;
 	
+	//Retorna todos os posts
 	public List<Post> findAll(){
 		
 		List<Post> list = repo.findAll();
@@ -25,10 +26,15 @@ public class PostService {
 		return list;
 	}
 	
+	//Retorna os posts cujo o titulo contenha a string informada
+	public List<Post> findByTitle(String text){
+		return repo.findByTitleContainingIgnoreCase(text);
+	}
+	
+	//Retorna um post por id
 	public Post findById(String id) {
 		Optional<Post> obj = repo.findById(id);
 		return obj.orElseThrow( () -> new ObjectNotFoundException(id) ); //Se for nulo dispara uma exceção
 	}
-	
 	
 }

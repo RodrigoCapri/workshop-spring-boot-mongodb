@@ -7,9 +7,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rodrigocapri.workshopmongo.domain.Post;
+import com.rodrigocapri.workshopmongo.resources.util.URL;
 import com.rodrigocapri.workshopmongo.services.PostService;
 
 @RestController
@@ -34,6 +36,16 @@ public class PostResource {
 		Post obj = service.findById(id);
 		
 		return ResponseEntity.ok().body( obj ); 
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/titlesearch") //Ou @GetMapping
+	public ResponseEntity< List<Post> > findByTitle(@RequestParam(value = "text", defaultValue = "") String text){ //O valor vai ser passado como paramentro
+		
+		text = URL.decodeParam(text); //Decodificar o paramentro text
+		
+		List<Post> list = service.findByTitle(text); //Retorna a lista de post com o paramentro text ja decodificado
+		
+		return ResponseEntity.ok().body( list ); 
 	}
 	
 }
