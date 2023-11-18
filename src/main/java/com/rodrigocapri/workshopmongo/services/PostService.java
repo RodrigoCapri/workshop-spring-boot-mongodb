@@ -28,7 +28,7 @@ public class PostService {
 	
 	//Retorna os posts cujo o titulo contenha a string informada
 	public List<Post> findByTitle(String text){
-		return repo.findByTitleContainingIgnoreCase(text);
+		return repo.searchTitle(text);
 	}
 	
 	//Retorna um post por id
