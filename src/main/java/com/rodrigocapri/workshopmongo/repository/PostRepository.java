@@ -1,5 +1,6 @@
 package com.rodrigocapri.workshopmongo.repository;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
@@ -24,5 +25,20 @@ public interface PostRepository extends MongoRepository<Post, String>{ //Qual do
 	//Retorna os posts cujo o titulo contenha a string informada
 	//Ignorando as letras maiusculas e minusculas
 	List<Post> findByTitleContainingIgnoreCase(String text); 
+	
+	// { $and: [ { <expression1> }, { <expression2> } , ... , { <expressionN> } ] }
+	// { $or: [ { <expression1> }, { <expression2> }, ... , { <expressionN> } ] }
+	// gte -> maior ou igual,  { field: { $gte: value } }
+	// lte -> menor ou igual,  { field: { $lte: value } }
+	@Query(" {"
+			+ " $and: [ "
+					+ "{ date: { $gte: ?1 } }, "
+					+ "{ date: { $lte: ?2 } } , "
+					+ "{ "
+						+ "$or: [ { 'title': { $regex: ?0, $options: 'i' } }, { 'body': { $regex: ?0, $options: 'i' } }, { 'comments.text': { $regex: ?0, $options: 'i' } } ] "
+					+ "} "
+				+ "] "
+			+ "} ")
+	List<Post> fullSearch(String text, Date minDate, Date maxDate);
 	
 }
